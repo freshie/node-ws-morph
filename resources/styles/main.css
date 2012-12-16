@@ -1,0 +1,72 @@
+.grass-green-decal-top-right-and-bottom-right-and-top-left{
+    background: url(/resources/images/terrainslopes.png) -384px -768px;
+}
+.grass-green-decal-top-right-and-bottom-left-and-top-left{
+    background: url(/resources/images/terrainslopes.png) -384px -704px;
+}
+.grass-green-decal-bottom-right-and-bottom-left-and-top-left{
+    background: url(/resources/images/terrainslopes.png) -384px -640px;
+}
+.grass-green-decal-top-right-and-bottom-left{
+    background: url(/resources/images/terrainslopes.png) -384px -576px;
+}
+.grass-green-decal-top-right-and-top-left{
+    background: url(/resources/images/terrainslopes.png) -384px -512px;
+}
+.grass-green-decal-top-right-and-bottom-right{
+    background: url(/resources/images/terrainslopes.png) -384px -448px;
+}
+.grass-green-decal-bottom-right-and-bottom-left{
+    background: url(/resources/images/terrainslopes.png) -384px -384px;
+}
+.grass-green-decal-top-left-and-bottom-left{
+    background: url(/resources/images/terrainslopes.png) -384px -320px;
+}
+
+.grass-green-decal-top-left{
+    background: url(/resources/images/terrainslopes.png) -384px -256px;
+}
+.grass-green-decal-top-right{
+    background: url(/resources/images/terrainslopes.png) -384px -192px;
+}
+.grass-green-decal-bottom-left{
+	background: url(/resources/images/terrainslopes.png) -384px -64px;
+}
+.grass-green-decal-bottom-right{
+    background: url(/resources/images/terrainslopes.png) -384px -128px;
+}
+.grass-green-plan{
+    background: url(/resources/images/terrainslopes.png) -384px 0px;
+}
+.block{
+	 width: 64px;  
+    height: 64px; 
+}
+.map-view{
+    position: fixed;
+    top: 5px;
+    left: 75px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid black;
+    overflow: hidden;
+    border-radius: 8px;
+
+}
+.map{
+    width: 100%;
+    height: 100%;
+	position: relative;
+}
+
+.tool-bar{
+	position: fixed;
+    top: 6px;
+    bottom: 0;
+    left: 5px;
+    z-index: 1
+}
+
+.tool-item{
+	z-index: 1;
+}
