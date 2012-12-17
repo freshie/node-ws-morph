@@ -7,7 +7,9 @@
 	</head>
 	<body>
 		<div id="connecting">
-			<div id="spinner" /> <span id='spinner-text'>Connecting...</span></div>
+			<div id="spinner"> 
+                <span id='spinner-text'>Connecting...</span>
+		    </div>
 			
 			<div class="info">
 				<p>Click and drag the objects to move them.</p>
@@ -15,35 +17,36 @@
 				<p>Use the WASD keys or drag the whitesapce on the map to move it.</p>
 			</div>
 		</div>
-			<div class="gameView" style="display: none;">
-				<div class="tool-bar">
-					<div class="grass-green-plan block tool-item"></div>
-					<div class="grass-green-decal-bottom-left block tool-item"></div>
-					<div class="grass-green-decal-bottom-right block tool-item"></div>
-					<div class="grass-green-decal-top-left block tool-item"></div>
-					<div class="grass-green-decal-top-right block tool-item"></div>
-					<div class="grass-green-decal-top-left-and-bottom-left block tool-item"></div>
-					<div class="grass-green-decal-bottom-right-and-bottom-left block tool-item"></div>
-					<div class="grass-green-decal-top-right-and-bottom-right block tool-item"></div>
-					<div class="grass-green-decal-top-right-and-top-left block tool-item"></div>
-					<div class="grass-green-decal-top-right-and-bottom-left block tool-item"></div>
-					<div class="grass-green-decal-bottom-right-and-bottom-left-and-top-left block tool-item"></div>
-					<div class="grass-green-decal-top-right-and-bottom-left-and-top-left block tool-item"></div>
-					<div class="grass-green-decal-top-right-and-bottom-right-and-top-left block tool-item"></div>
-				</div>
-				<div class="map-view">
-					 <div class="map">
-					 	
-					 </div>
-				</div>
-				
-				<div class="chat"></div>
+		<div class="gameView" style="display: none;">
+			<div class="tool-bar">
+				<div class="grass-green-plan block tool-item"></div>
+				<div class="grass-green-decal-bottom-left block tool-item"></div>
+				<div class="grass-green-decal-bottom-right block tool-item"></div>
+				<div class="grass-green-decal-top-left block tool-item"></div>
+				<div class="grass-green-decal-top-right block tool-item"></div>
+				<div class="grass-green-decal-top-left-and-bottom-left block tool-item"></div>
+				<div class="grass-green-decal-bottom-right-and-bottom-left block tool-item"></div>
+				<div class="grass-green-decal-top-right-and-bottom-right block tool-item"></div>
+				<div class="grass-green-decal-top-right-and-top-left block tool-item"></div>
+				<div class="grass-green-decal-top-right-and-bottom-left block tool-item"></div>
+				<div class="grass-green-decal-bottom-right-and-bottom-left-and-top-left block tool-item"></div>
+				<div class="grass-green-decal-top-right-and-bottom-left-and-top-left block tool-item"></div>
+				<div class="grass-green-decal-top-right-and-bottom-right-and-top-left block tool-item"></div>
 			</div>
-			<script src="/resources/scripts/jquery-1.8.3.js"></script>
-			<script src="/resources/scripts/jquery-ui-1.9.2.custom.min.js"></script>
-			<script src="/resources/scripts/socket.io.min.js"></script>
-			<script src="/resources/scripts/spin.min.js"></script>
-			<script src="/server/getIP"></script>
-			<script src="/resources/scripts/main.js"></script>
+			<div class="map-view">
+					<div class="map">
+					 	
+					</div>
+			</div>
+				
+			<div class="chat"></div>
+		</div>
+        <script src="/resources/scripts/jquery-1.8.3.js"></script>
+        <script src="/resources/scripts/jquery-ui-1.9.2.custom.min.js"></script>
+        <script src="/resources/scripts/socket.io.min.js"></script>
+        <script src="/resources/scripts/spin.min.js"></script>
+        <script src="/resources/scripts/jquery.ui.touch-punch.min.js"></script>
+        <script src="/server/getIP"></script>
+        <script src="/resources/scripts/main.js"></script>
 	</body>
 </html>
