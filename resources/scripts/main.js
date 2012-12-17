@@ -51,6 +51,11 @@ function bindUIEvents(){
              grid: [ 16, 16 ]
     });
 
+$('.map').draggable({
+                  grid: [ 16, 16 ]
+                  
+                });
+
  $( ".map-view" ).droppable({
         accept: ".tool-item",
         drop: function( event, ui ) {
