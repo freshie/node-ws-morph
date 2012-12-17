@@ -41,41 +41,88 @@ socket.on('connect', function(){
     var spinner = new Spinner(opts).spin(target);
 
 
- 	$( ".tool-item",".tool-bar" ).draggable({
-          	 stop: function( event, ui ) { 
-          	 	$(this).attr("style","position: relative;")
-          	 },
-             grid: [ 16, 16 ]
+   	$( ".tool-item",".tool-bar" ).draggable({
+            	 stop: function( event, ui ) { 
+            	 	$(this).attr("style","position: relative;")
+            	 },
+               grid: [ 16, 16 ]
+      });
+
+   $( ".map-view" ).droppable({
+        	accept: ".tool-item",
+          drop: function( event, ui ) {
+             
+            var element = ui.draggable.clone();
+            
+            var id = new Date().getTime(); 
+        		
+            element.attr('id','ME-'+id)
+            element.removeClass("tool-item");
+        		element.appendTo( ".map" );
+        		element.draggable({
+                grid: [ 16, 16 ], 
+                stop: function( event, ui ) { 
+                  sendElement(this);
+                 }
+              });
+        		adjustToMapSpaces(element, ui.draggable.index());
+            sendElement(element);
+        		element.css("position","absolute");
+        	
+          }
     });
 
-     $( ".map-view" ).droppable({
-          	accept: ".tool-item",
-            drop: function( event, ui ) {
-               
-              var element = ui.draggable.clone();
-              
-              var id = new Date().getTime(); 
-	        		
-              element.attr('id','ME-'+id)
-              element.removeClass("tool-item");
-	        		element.appendTo( ".map" );
-	        		element.draggable({
-                  grid: [ 16, 16 ], 
-                  stop: function( event, ui ) { 
-                    sendElement(this);
-                   }
-                });
-	        		adjustForToolBar(element, ui.draggable.index());
-              sendElement(element);
-	        		element.css("position","absolute");
-	        	
-            }
-        });
+    $(window).keypress(function(e) {
+  
+      switch(e.which){
+        case 100: //d
+          moveMap('right');
+          break;
+        case 97://a
+           moveMap('left');
+          break;
+        case 119://w
+         moveMap('up');
+        break;
+        case 115://s
+         moveMap('down');
+        break;
+        default:
+          //for debugging
+      }
+
+    });
 			
-    });
+});
 
-function renderMapElement(ElementIn)
-{
+function moveMap(direction){
+
+  var map = $('.map')
+    ,top = map.offset().top
+    , left = map.offset().left
+    , space = 16;
+    switch(direction){
+        case 'right': 
+           left =  left + space;
+          break;
+        case 'left':
+           left = left - space;
+          break;
+        case 'up':
+         top = top - space;
+        break;
+        case 'down':
+         top =top + space;
+        break;
+        default:
+          //for debugging
+      }
+
+    map.offset({top: top, left: left});
+
+}
+
+function renderMapElement(ElementIn){
     $("#"+ElementIn.id, ".map").remove();
     var jqeryElement = $('<div id="'+ ElementIn.id +'"" class="'+ElementIn.classes+'"> </div>');
     jqeryElement.appendTo( ".map" );
@@ -90,31 +137,20 @@ function renderMapElement(ElementIn)
 
 }
 
-function adjustForToolBar(element, offset)
-{
-	var space = 64;
+function adjustToMapSpaces(element, offset){
+	var mapOffset = $('.map').offset();
+  var space = 64;
 	var top  = $(element).offset().top ;
  	var left = $(element).offset().left;
-
- 	left = left - space - 7;
- 
-    top = top + (space * offset  );
+                                              //for too bar
+ 	left = (left - space - 7) - (mapOffset.left - 76);
+                                              //for too bar            
+  top = (top + (space * offset  )) - (mapOffset.top - 6);
  
   $(element).offset({left: left, top: top});
 }
-
- function adjustToMapSpaces(element)
- {
- 	var space = 16;
- 	var top  = $(element).offset().top ;
- 	var left = $(element).offset().left;
- 	top = Math.round((top / space)) * space;
- 	left = Math.round((left / space)) * space;
- 	$(element).offset({left: left, top: top});
- }
-
- function sendElement(element)
- {
+ 
+ function sendElement(element){
   
  	var object = {
  		top:  $(element).css("top"),
