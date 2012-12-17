@@ -1,42 +1,42 @@
 .grass-green-decal-top-right-and-bottom-right-and-top-left{
-    background: url(/resources/images/terrainslopes.png) -384px -768px;
+    background: url(/resources/images/grass-green.png) 0px -768px;
 }
 .grass-green-decal-top-right-and-bottom-left-and-top-left{
-    background: url(/resources/images/terrainslopes.png) -384px -704px;
+    background: url(/resources/images/grass-green.png) 0px -704px;
 }
 .grass-green-decal-bottom-right-and-bottom-left-and-top-left{
-    background: url(/resources/images/terrainslopes.png) -384px -640px;
+    background: url(/resources/images/grass-green.png) 0px -640px;
 }
 .grass-green-decal-top-right-and-bottom-left{
-    background: url(/resources/images/terrainslopes.png) -384px -576px;
+    background: url(/resources/images/grass-green.png) 0px -576px;
 }
 .grass-green-decal-top-right-and-top-left{
-    background: url(/resources/images/terrainslopes.png) -384px -512px;
+    background: url(/resources/images/grass-green.png) 0px -512px;
 }
 .grass-green-decal-top-right-and-bottom-right{
-    background: url(/resources/images/terrainslopes.png) -384px -448px;
+    background: url(/resources/images/grass-green.png) 0px -448px;
 }
 .grass-green-decal-bottom-right-and-bottom-left{
-    background: url(/resources/images/terrainslopes.png) -384px -384px;
+    background: url(/resources/images/grass-green.png) 0px 0px;
 }
 .grass-green-decal-top-left-and-bottom-left{
-    background: url(/resources/images/terrainslopes.png) -384px -320px;
+    background: url(/resources/images/grass-green.png) 0px -320px;
 }
 
 .grass-green-decal-top-left{
-    background: url(/resources/images/terrainslopes.png) -384px -256px;
+    background: url(/resources/images/grass-green.png) 0px -256px;
 }
 .grass-green-decal-top-right{
-    background: url(/resources/images/terrainslopes.png) -384px -192px;
+    background: url(/resources/images/grass-green.png) 0px -192px;
 }
 .grass-green-decal-bottom-left{
-	background: url(/resources/images/terrainslopes.png) -384px -64px;
+	background: url(/resources/images/grass-green.png) 0px -64px;
 }
 .grass-green-decal-bottom-right{
-    background: url(/resources/images/terrainslopes.png) -384px -128px;
+    background: url(/resources/images/grass-green.png) 0px -128px;
 }
 .grass-green-plan{
-    background: url(/resources/images/terrainslopes.png) -384px 0px;
+    background: url(/resources/images/grass-green.png) 0px 0px;
 }
 .block{
 	 width: 64px;  
@@ -80,6 +80,10 @@
 #connecting{
     padding: 100px; 
     font-size: 24px;
+    /* lets us predownload the image*/
+    background-image: url(/resources/images/grass-green.png);
+    background-repeat: no-repeat;
+    background-position: -1000px -2000px;
 }
 
 #connecting .info{
