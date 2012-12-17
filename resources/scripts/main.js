@@ -175,14 +175,23 @@ function renderMapElement(ElementIn){
 
 //makes it so when itmes are dragged from the ui they get the correct offset
 function adjustToMapSpaces(element, offset){
-	var mapOffset = $('.map').offset();
   var space = 64;
-	var top  = $(element).offset().top ;
- 	var left = $(element).offset().left;
-                                              //for too bar
- 	left = (left - space - 7) - (mapOffset.left - 76);
+  var top  = $(element).offset().top ;
+  var left = $(element).offset().left;
+
+//makes sure that its in side the size of the map
+//have to use css becuase offset gives us the window offset
+  var mapTop = $('.map').css("top");
+  var mapLeft = $('.map').css("left");
+
+    //gets ride of the px and makes an int
+  mapTop = parseInt(mapTop.replace('px'));
+  mapLeft = parseInt(mapLeft.replace('px'));
+
+    //for too bar
+  left = (left - space - 7) - mapLeft;
                                               //for too bar            
-  top = (top + (space * offset  )) - (mapOffset.top - 6);
+  top = (top + (space * offset)) - mapTop;
  
   $(element).offset({left: left, top: top});
 }
