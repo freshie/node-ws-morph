@@ -1,24 +1,3 @@
-var socket = io.connect(serverIP + ':' + window.location.port);
-socket.on('connect', function(){
-      $("#spinner-text").html("Getting Map Data...");
-      socket.emit('getElements');
-  });
-  
- socket.on('setElements', function (ElementsIn) {
-      $(".gameView").show();
-      $("#connecting").hide();
-      for (var Element in ElementsIn)
-      {
-        renderMapElement(ElementsIn[Element]);
-      }
-      
-  });
-
-  socket.on('setElement', function (ElementIn) {
-     renderMapElement(ElementIn);
-   
-  });
-
  $(function() {
   var opts = {
     lines: 13, // The number of lines to draw
@@ -39,61 +18,84 @@ socket.on('connect', function(){
     };
     var target = document.getElementById('spinner');
     var spinner = new Spinner(opts).spin(target);
-
-
-   	$( ".tool-item",".tool-bar" ).draggable({
-            	 stop: function( event, ui ) { 
-            	 	$(this).attr("style","position: relative;")
-            	 },
-               grid: [ 16, 16 ]
-      });
-
-   $( ".map-view" ).droppable({
-        	accept: ".tool-item",
-          drop: function( event, ui ) {
-             
-            var element = ui.draggable.clone();
-            
-            var id = new Date().getTime(); 
-        		
-            element.attr('id','ME-'+id)
-            element.removeClass("tool-item");
-        		element.appendTo( ".map" );
-        		element.draggable({
-                grid: [ 16, 16 ], 
-                stop: function( event, ui ) { 
-                  sendElement(this);
-                 }
-              });
-        		adjustToMapSpaces(element, ui.draggable.index());
-            sendElement(element);
-        		element.css("position","absolute");
-        	
-          }
-    });
-
-    $(window).keypress(function(e) {
-  
-      switch(e.which){
-        case 100: //d
-          moveMap('right');
-          break;
-        case 97://a
-           moveMap('left');
-          break;
-        case 119://w
-         moveMap('up');
-        break;
-        case 115://s
-         moveMap('down');
-        break;
-        default:
-          //for debugging
-      }
-
-    });
 			
 });
+
+var socket = io.connect(serverIP + ':' + window.location.port);
+socket.on('connect', function(){
+      $("#spinner-text").html("Getting Map Data...");
+      socket.emit('getElements');
+  });
+  
+ socket.on('setElements', function (ElementsIn) {
+      $(".gameView").show();
+      $("#connecting").hide();
+      for (var Element in ElementsIn)
+      {
+        renderMapElement(ElementsIn[Element]);
+      }
+      bindUIEvents();
+  });
+
+  socket.on('setElement', function (ElementIn) {
+     renderMapElement(ElementIn);
+   
+  });
+
+
+function bindUIEvents(){
+  $( ".tool-item",".tool-bar" ).draggable({
+             stop: function( event, ui ) { 
+              $(this).attr("style","position: relative;")
+             },
+             grid: [ 16, 16 ]
+    });
+
+ $( ".map-view" ).droppable({
+        accept: ".tool-item",
+        drop: function( event, ui ) {
+           
+          var element = ui.draggable.clone();
+          
+          var id = new Date().getTime(); 
+          
+          element.attr('id','ME-'+id)
+          element.removeClass("tool-item");
+          element.appendTo( ".map" );
+          element.draggable({
+              grid: [ 16, 16 ], 
+              stop: function( event, ui ) { 
+                sendElement(this);
+               }
+            });
+          adjustToMapSpaces(element, ui.draggable.index());
+          sendElement(element);
+          element.css("position","absolute");
+        
+        }
+  });
+
+  $(window).keypress(function(e) {
+
+    switch(e.which){
+      case 100: //d
+        moveMap('right');
+        break;
+      case 97://a
+         moveMap('left');
+        break;
+      case 119://w
+       moveMap('up');
+      break;
+      case 115://s
+       moveMap('down');
+      break;
+      default:
+        //for debugging
+    }
+
+  });
+}
 
 function moveMap(direction){
 
