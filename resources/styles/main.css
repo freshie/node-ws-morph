@@ -45,7 +45,7 @@
 .map-view{
     position: fixed;
     top: 5px;
-    left: 75px;
+    left: 90px;
     right: 5px;
     bottom: 5px;
     border: 1px solid black;
@@ -65,12 +65,18 @@
     border-radius: 8px;
 }
 
-.tool-bar{
-	position: fixed;
+.tool-bar-view{
+        position: fixed;
     top: 6px;
+    left: 0px;
     bottom: 0;
-    left: 5px;
-    z-index: 1
+    padding-left: 1px;
+    z-index: 1;
+    width: 85px;
+}
+
+.tool-bar{
+    width: 100%;
 }
 
 .tool-item{

@@ -49,19 +49,29 @@ socket.on('setElement', function (ElementIn) {
 
 function bindUIEvents(){
 
+  //lets you scroll the tool bar
+   $(".tool-bar" ).draggable({
+             stop: function( event, ui ) { 
+              if ($(this).offset().top > 0)
+                  $(this).offset({top: 0, left: $(this).offset().left })
+              else if ( (-1 * $(this).offset().top) > ($(this).height() - $(window).height()))
+                  $(this).offset({top: -1 * ($(this).height() - $(window).height()), left: $(this).offset().left })
+             },
+             grid: [ 0, 64 ] //makes it so it scroll for each object
+  });
+
   //lets the players move the objects to the map
   $( ".tool-item",".tool-bar" ).draggable({
              stop: function( event, ui ) { 
               $(this).attr("style","position: relative;")
              },
              grid: [ 16, 16 ]
-    });
+  });
 
   //lets the user maove the map round.
   $('.map').draggable({
                     grid: [ 16, 16 ]
-                    
-                  });
+  });
 
  //makes it so when the drop the items over the map view the show up in the map
  $( ".map-view" ).droppable({
