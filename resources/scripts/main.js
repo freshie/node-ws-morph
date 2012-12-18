@@ -200,13 +200,13 @@ function adjustToMapSpaces(element, offset){
   mapLeft = parseInt(mapLeft.replace('px'));
 
   //for too bar
-  left = (left - size - 7) - mapLeft;
+  left = (left - size) - mapLeft;
                                                      
   top = (top + (size * offset)) - mapTop;
  
   // makes sure its in the grid
   top = Math.round((top / space)) * space;
-  left = (Math.round((left / space)) * space) - 7;
+  left = (Math.round((left / space)) * space) - 32;
 
   $(element).offset({left: left, top: top});
 }
