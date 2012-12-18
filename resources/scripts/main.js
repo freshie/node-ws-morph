@@ -175,7 +175,8 @@ function renderMapElement(ElementIn){
 
 //makes it so when itmes are dragged from the ui they get the correct offset
 function adjustToMapSpaces(element, offset){
-  var space = 64;
+  var size = 64;
+  var space = 16;
   var top  = $(element).offset().top ;
   var left = $(element).offset().left;
 
@@ -188,14 +189,18 @@ function adjustToMapSpaces(element, offset){
   mapTop = parseInt(mapTop.replace('px'));
   mapLeft = parseInt(mapLeft.replace('px'));
 
-    //for too bar
-  left = (left - space - 7) - mapLeft;
-                                              //for too bar            
-  top = (top + (space * offset)) - mapTop;
+  //for too bar
+  left = (left - size - 7) - mapLeft;
+                                                     
+  top = (top + (size * offset)) - mapTop;
  
+  // makes sure its in the grid
+  top = Math.round((top / space)) * space;
+  left = (Math.round((left / space)) * space) - 7;
+
   $(element).offset({left: left, top: top});
 }
- 
+
 
  //makes an object on the fly from the dom element and sends it to the server
  function sendElement(element){
