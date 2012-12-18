@@ -1,3 +1,4 @@
+
  $(function() {
   var opts = {
     lines: 13, // The number of lines to draw
