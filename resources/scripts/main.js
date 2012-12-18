@@ -52,8 +52,8 @@ function bindUIEvents(){
   //lets you scroll the tool bar
    $(".tool-bar" ).draggable({
              stop: function( event, ui ) { 
-              if ($(this).offset().top > 0)
-                  $(this).offset({top: 0, left: $(this).offset().left })
+              if ($(this).offset().top > 7)
+                  $(this).offset({top: 7, left: $(this).offset().left })
               else if ( (-1 * $(this).offset().top) > ($(this).height() - $(window).height()))
                   $(this).offset({top: -1 * ($(this).height() - $(window).height()), left: $(this).offset().left })
              },
@@ -195,14 +195,18 @@ function adjustToMapSpaces(element, offset){
   var mapTop = $('.map').css("top");
   var mapLeft = $('.map').css("left");
 
+  var toolBarTop = $('.tool-bar').css("top");
+    if (toolBarTop == "auto")
+       toolBarTop = "-7px";
     //gets ride of the px and makes an int
   mapTop = parseInt(mapTop.replace('px'));
   mapLeft = parseInt(mapLeft.replace('px'));
-
+  
+  toolBarTop = parseInt(toolBarTop.replace('px')) + 7;
   //for too bar
-  left = (left - size) - mapLeft;
+  left = (left - size) - mapLeft ;
                                                      
-  top = (top + (size * offset)) - mapTop;
+  top = (top + (size * offset)) - mapTop + toolBarTop;
  
   // makes sure its in the grid
   top = Math.round((top / space)) * space;
