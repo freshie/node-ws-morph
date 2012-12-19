@@ -45,7 +45,7 @@
 .map-view{
     position: fixed;
     top: 0;
-    left: 98px;
+    left: 2px;
     right: 0;
     bottom: 0;
     overflow: hidden;
@@ -71,7 +71,8 @@
     width: 95px;
     padding-left: 1px;
     border: 1px solid black;
-    border-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
     background: black;
 }
 

@@ -201,7 +201,7 @@ function adjustToMapSpaces(element, offset){
   
   toolBarTop = parseInt(toolBarTop.replace('px')) ;
   //for too bar
-  left = (left - size) - mapLeft ;
+  left = (left + 32) - mapLeft ;
                                                      
   top = (top + (size * offset)) - mapTop + toolBarTop;
  
