@@ -1,0 +1,9 @@
+.scroll-content {position:fixed;top:0;left:32px;}
+.scroll-pane{position:relative;}
+.slider-wrap{position:absolute;left:0;top:0;background-color:black;width:30px; border-radius: 15px}
+.slider-vertical{position:relative;height:100%; border-radius: 15px}
+.ui-slider-handle{background-color:darkgray;width:30px;height:10px;margin:0 auto;display:block;position:absolute; border-radius: 15px;}
+.ui-slider-handle img{border:none}
+.scrollbar-top{position:absolute;top:0;}
+.scrollbar-bottom{position:absolute;bottom:0;}
+.scrollbar-grip{position:absolute;top:50%;}
