@@ -48,19 +48,15 @@ socket.on('setElement', function (ElementIn) {
 });
 
 
-function bindUIEvents(){
-
+function bindUIEvents() {
+    $(window).resize(function () {
+        $(".tool-bar").sbscroller('refresh');
+       
+    });
   //lets you scroll the tool bar
-   $(".tool-bar" ).draggable({
-             stop: function( event, ui ) { 
-              if ($(this).offset().top > 7)
-                  $(this).offset({top: 7, left: $(this).offset().left })
-              else if ( (-1 * $(this).offset().top) > ($(this).height() - $(window).height()))
-                  $(this).offset({top: -1 * ($(this).height() - $(window).height()), left: $(this).offset().left })
-             },
-             grid: [ 0, 64 ] //makes it so it scroll for each object
-  });
-
+  $(".tool-bar").sbscroller();
+ 
+ 
   //lets the players move the objects to the map
   $( ".tool-item",".tool-bar" ).draggable({
              stop: function( event, ui ) { 
@@ -196,14 +192,14 @@ function adjustToMapSpaces(element, offset){
   var mapTop = $('.map').css("top");
   var mapLeft = $('.map').css("left");
 
-  var toolBarTop = $('.tool-bar').css("top");
+  var toolBarTop = $('.scroll-content').css("top");
     if (toolBarTop == "auto")
-       toolBarTop = "-7px";
+       toolBarTop = "0px";
     //gets ride of the px and makes an int
   mapTop = parseInt(mapTop.replace('px'));
   mapLeft = parseInt(mapLeft.replace('px'));
   
-  toolBarTop = parseInt(toolBarTop.replace('px')) + 7;
+  toolBarTop = parseInt(toolBarTop.replace('px')) ;
   //for too bar
   left = (left - size) - mapLeft ;
                                                      
@@ -211,7 +207,7 @@ function adjustToMapSpaces(element, offset){
  
   // makes sure its in the grid
   top = Math.round((top / space)) * space;
-  left = (Math.round((left / space)) * space) - 32;
+  left = (Math.round((left / space)) * space) -2 ;
 
   $(element).offset({left: left, top: top});
 }
