@@ -48,7 +48,13 @@ io.sockets.on('connection', function (socket) {
 		
 		socket.broadcast.emit('setElement', elementIn);
 	});
+	
+	socket.on('deleteElement', function(id){
 		
+		delete elements[id];
+                                                  
+		socket.broadcast.emit('removeElement', id);
+	});
 		
 });
 

@@ -47,93 +47,163 @@ socket.on('setElement', function (ElementIn) {
  
 });
 
+//removes the element with the incoming id
+socket.on('removeElement', function (id) {
+    $("#"+id, ".map").remove();
+});
 
 function bindUIEvents() {
-    $(window).resize(function () {
-        $(".tool-bar").sbscroller('refresh');
+  //stuff that needs to happen when the window resizes
+  $(window).resize(function () {
+        $(".tool-bar").sbscroller('refresh'); //makes it so the toolbar scroller checks is hieght agian
        
     });
+
+  //action menu stuff
+    $('.action-menu').on('click','li', function(e) {
+        e.preventDefault();
+
+        var action = $(this).attr("class");
+        action = action.replace("typicn ",""); 
+
+        actionMenuAction(action);
+    });
+  
   //lets you scroll the tool bar
   $(".tool-bar").sbscroller();
  
  
   //lets the players move the objects to the map
   $( ".tool-item",".tool-bar" ).draggable({
-             stop: function( event, ui ) { 
-              $(this).attr("style","position: relative;")
-             },
-             grid: [ 16, 16 ]
+         start: function( event, ui ) { 
+           deselectMapElements();
+         },
+         stop: function( event, ui ) { 
+          $(this).attr("style","position: relative;");
+         },
+         grid: [ 16, 16 ]
   });
 
-  //lets the user maove the map round.
+  //lets the user move the map round.
   $('.map').draggable({
+                   start: function( event, ui ) { 
+                         deselectMapElements();
+                       },
                     grid: [ 16, 16 ]
   });
+
+  //makes it so you can hide the action menu by click the map
+  $('.map').on("click", function(){
+        deselectMapElements();
+    });
 
  //makes it so when the drop the items over the map view the show up in the map
  $( ".map-view" ).droppable({
         accept: ".tool-item",
         drop: function( event, ui ) {
-          var size = 64;
-          var element = ui.draggable.clone();
-          var id = new Date().getTime(); 
-          var map = $('.map')
-
-          //adds an id so we know what to change later
-          element.attr('id','ME-'+id)
-          element.removeClass("tool-item");
-
-          //changes the left and top to make it be placed in the correct spaot
-          adjustToMapSpaces(element, ui.draggable.index());
-
-          //makes sure that its in side the size of the map
-          //have to use css becuase offset isnt made yet
-          var top = element.css("top"); 
-          var left = element.css("left");
-          
-          //gets ride of the px and makes an int
-          top = parseInt(top.replace('px'));
-          left = parseInt(left.replace('px'));
-          
-          if (top > ( -1 * size) && top < map.height() && left >  ( -1 * size)  && left < map.width())
-          {
-            element.appendTo( ".map" );
-            element.draggable({
-                grid: [ 16, 16 ], 
-                stop: function( event, ui ) { 
-                  sendElement(this);
-                 }
-              });
-           
-            sendElement(element);
-
-            //by default draggable sets to relitive we want absolute
-            element.css("position","absolute");
-          }
+             mapDroppable(event, ui);
         }
   });
 
-  //this is just right now for move incase there isnt any whtiespace
-  $(window).keypress(function(e) {
+}
 
-    switch(e.which){
-      case 100: //d
-        moveMap('right');
+function actionMenuAction(action){
+  switch(action){
+        case 'delete': 
+              actionMenuActionDelete();
+          break;
+        case 'info': 
+              actionMenuActionInfo();
         break;
-      case 97://a
-         moveMap('left');
-        break;
-      case 119://w
-       moveMap('up');
-      break;
-      case 115://s
-       moveMap('down');
-      break;
-      default:
-        //for debugging
-    }
+        default:
+          alert(action);
+      }
+}
 
+//Tells a little into about the item
+function actionMenuActionInfo()
+{
+   var element =  $(".selected",".map");
+   var id = element.attr('id');
+   
+   id = id.replace("ME-","");
+
+   var date = new Date(parseInt(id));
+   
+   var dataString = "at " + date.getHours() + ":"+ date.getMinutes() +" on " + date.getMonth() + "/" + date.getDay() + "/" + date.getYear();
+    alert("This object was created "+ dataString ); 
+}
+
+//removes the object locally and then sends the delete command to the server
+function actionMenuActionDelete()
+{
+   var element =  $(".selected",".map");
+    
+    element.remove();
+    
+    socket.emit('deleteElement', element.attr("id"));
+}
+
+function mapDroppable(event, ui){
+    var size = 64;
+    var element = ui.draggable.clone();
+    var id = new Date().getTime();
+    var map = $('.map');
+
+    //adds an id so we know what to change later
+    element.attr('id','ME-'+id);
+    element.removeClass("tool-item");
+
+    //changes the left and top to make it be placed in the correct spaot
+    adjustToMapSpaces(element, ui.draggable.index());
+
+    //makes sure that its in side the size of the map
+    //have to use css becuase offset isnt made yet
+    var top = element.css("top"); 
+    var left = element.css("left");
+    
+    //gets ride of the px and makes an int
+    top = parseInt(top.replace('px'));
+    left = parseInt(left.replace('px'));
+    
+    if (top > ( -1 * size) && top < map.height() && left >  ( -1 * size)  && left < map.width())
+    {
+      element.appendTo( ".map" );
+      mapElementBindings(element);
+      sendElement(element);
+
+      //by default draggable sets to relitive we want absolute
+      element.css("position","absolute");
+    } 
+}
+
+function deselectMapElements()
+{
+  $(".action-menu-wrapper").hide();
+  $(".block",".map").removeClass("selected");
+}
+
+//binds for elements that go into the map
+function mapElementBindings(juqeryElement)
+{
+  //makes element draggable
+  juqeryElement.draggable({
+    grid: [ 16, 16 ],
+    start: function( event, ui ) { 
+               deselectMapElements();
+    },
+    stop: function( event, ui ) { 
+      sendElement(this);
+     }
   });
+ 
+
+  juqeryElement.on("click", function(event){
+        $(".block",".map").removeClass("selected");
+        juqeryElement.addClass("selected");
+        $(".action-menu-wrapper").show();
+        event.stopPropagation();
+    });
 }
 
 
@@ -165,18 +235,17 @@ function moveMap(direction){
 
 }
 
-//takes the obejcets itmes and display an object
+//takes the obejcets items and display an element
 function renderMapElement(ElementIn){
     $("#"+ElementIn.id, ".map").remove();
-    var jqeryElement = $('<div id="'+ ElementIn.id +'"" class="'+ElementIn.classes+'"> </div>');
-    jqeryElement.appendTo( ".map" );
-    jqeryElement.draggable({
-                  grid: [ 16, 16 ], 
-                  stop: function( event, ui ) { 
-                    sendElement(this);
-                   }
-                });
-    jqeryElement.attr("style",'top: '+ElementIn.top+'; left: '+ElementIn.left+'; position: absolute;');
+    
+    var juqeryElement = $('<div id="'+ ElementIn.id +'"" class="'+ElementIn.classes+'"> </div>');
+    
+    juqeryElement.appendTo( ".map" );
+
+    mapElementBindings(juqeryElement);
+    
+    juqeryElement.attr("style",'top: '+ElementIn.top+'; left: '+ElementIn.left+'; position: absolute;');
 }
 
 
@@ -215,11 +284,13 @@ function adjustToMapSpaces(element, offset){
 
  //makes an object on the fly from the dom element and sends it to the server
  function sendElement(element){
-  
+      var classes = $(element).attr("class");
+      classes = classes.replace(" selected");
+
  	var object = {
  		top:  $(element).css("top"),
  		left: $(element).css("left"),
- 		classes: $(element).attr("class"),
+ 		classes: classes,
     id: $(element).attr("id")
  	};
 
