@@ -118,6 +118,7 @@
 
 .selected{
     box-shadow: inset 0 0 32px black;
+    border-radius: 8px;
 }
     
 
