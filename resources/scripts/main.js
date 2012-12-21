@@ -142,6 +142,8 @@ function actionMenuActionDelete()
     element.remove();
     
     socket.emit('deleteElement', element.attr("id"));
+
+     $(".action-menu-wrapper").hide();
 }
 
 function mapDroppable(event, ui){
