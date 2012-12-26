@@ -39,7 +39,7 @@
     background: url(/resources/images/grass-green.png) 0px 0px;
 }
 .block{
-	width: 64px;  
+    width: 64px;  
     height: 64px; 
 }
 .map-view{
@@ -54,7 +54,7 @@
 .map{
     min-width: 4000px;
     min-height: 4000px;
-	position: relative;
+    position: relative;
     overflow: hidden;
     background: white;
     left: -2000px;
@@ -82,7 +82,7 @@
 }
 
 .tool-item{
-	z-index: 1;
+    z-index: 1;
 }
 
 .action-menu-wrapper{
@@ -95,14 +95,14 @@
 }
 
 .action-menu{
-    width: 100px;
+    width: 110px;
     margin-left: auto;  
     margin-right:auto;  
     background: black;
-    height: 32px;
+    height: 40px;
     border-radius: 8px;
     color: white;
-    font-size: 34px;
+    font-size: 40px;
     padding:0;
     margin-top: 0;
 }
@@ -113,14 +113,20 @@
   float: left;
   margin-right: 15px;
   position: relative;
-  top: 1px;
+  top: .1em;
 }
 
 .selected{
     box-shadow: inset 0 0 32px black;
     border-radius: 8px;
 }
-    
+
+.selected-other{
+    box-shadow: inset 0 0 32px darkGray;
+    border-radius: 8px;
+}
+
+
 
 
 #connecting{

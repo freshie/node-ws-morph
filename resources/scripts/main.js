@@ -130,20 +130,30 @@ function actionMenuActionInfo()
 
    var date = new Date(parseInt(id));
    
-   var dataString = "at " + date.getHours() + ":"+ date.getMinutes() +" on " + date.getMonth() + "/" + date.getDay() + "/" + date.getYear();
+var hours = date.getHours();
+var AMPM = "A.M.";
+
+if (hours > 12)
+{
+hours = hours - 12;
+AMPM  = "P.M."
+}
+
+var dataString = "at " + hours  + ":"+ date.getMinutes() + " "+ AMPM  +" on " + ( date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+
     alert("This object was created "+ dataString ); 
 }
 
 //removes the object locally and then sends the delete command to the server
 function actionMenuActionDelete()
 {
-   var element =  $(".selected",".map");
-    
-    element.remove();
-    
-    socket.emit('deleteElement', element.attr("id"));
+  var element =  $(".selected",".map");
+  
+  element.remove();
+  
+  socket.emit('deleteElement', element.attr("id"));
 
-     $(".action-menu-wrapper").hide();
+  $(".action-menu-wrapper").hide();
 }
 
 function mapDroppable(event, ui){
@@ -181,8 +191,15 @@ function mapDroppable(event, ui){
 
 function deselectMapElements()
 {
+
   $(".action-menu-wrapper").hide();
-  $(".block",".map").removeClass("selected");
+
+  $(".selected",".map").each(function(index) {
+        $(this).removeClass("selected");
+        
+         sendElement(this);
+    });
+
 }
 
 //binds for elements that go into the map
@@ -191,11 +208,13 @@ function mapElementBindings(juqeryElement)
   //makes element draggable
   juqeryElement.draggable({
     grid: [ 16, 16 ],
-    start: function( event, ui ) { 
-               deselectMapElements();
+    start: function( event ) { 
+              deselectMapElements();
+              juqeryElement.addClass("selected");
+              sendElement(juqeryElement);
     },
     stop: function( event, ui ) { 
-      sendElement(this);
+      sendElement(juqeryElement);
      }
   });
  
@@ -203,6 +222,9 @@ function mapElementBindings(juqeryElement)
   juqeryElement.on("click", function(event){
         $(".block",".map").removeClass("selected");
         juqeryElement.addClass("selected");
+
+        sendElement(juqeryElement);
+
         $(".action-menu-wrapper").show();
         event.stopPropagation();
     });
@@ -287,7 +309,8 @@ function adjustToMapSpaces(element, offset){
  //makes an object on the fly from the dom element and sends it to the server
  function sendElement(element){
       var classes = $(element).attr("class");
-      classes = classes.replace(" selected");
+      classes = classes.replace("selected-other","");
+      classes = classes.replace(" selected"," selected-other");
 
  	var object = {
  		top:  $(element).css("top"),
