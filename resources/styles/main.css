@@ -1,46 +1,48 @@
 .grass-green-decal-top-right-and-bottom-right-and-top-left{
-    background: url(/resources/images/grass-green.png) 0px -768px;
+    background-position: -64px -768px;
 }
 .grass-green-decal-top-right-and-bottom-left-and-top-left{
-    background: url(/resources/images/grass-green.png) 0px -704px;
+    background-position: -64px -704px;
 }
 .grass-green-decal-bottom-right-and-bottom-left-and-top-left{
-    background: url(/resources/images/grass-green.png) 0px -640px;
+    background-position: -64px -640px;
 }
 .grass-green-decal-top-right-and-bottom-left{
-    background: url(/resources/images/grass-green.png) 0px -576px;
+   background-position: -64px -576px;
 }
 .grass-green-decal-top-right-and-top-left{
-    background: url(/resources/images/grass-green.png) 0px -512px;
+    background-position: -64px -512px;
 }
 .grass-green-decal-top-right-and-bottom-right{
-    background: url(/resources/images/grass-green.png) 0px -448px;
+    background-position: -64px -448px;
 }
 .grass-green-decal-bottom-right-and-bottom-left{
-    background: url(/resources/images/grass-green.png) 0px 0px;
+    background-position: -64px -384px;
 }
 .grass-green-decal-top-left-and-bottom-left{
-    background: url(/resources/images/grass-green.png) 0px -320px;
+    background-position: -64px -320px;
 }
 
 .grass-green-decal-top-left{
-    background: url(/resources/images/grass-green.png) 0px -256px;
+    background-position: -64px -256px;
 }
 .grass-green-decal-top-right{
-    background: url(/resources/images/grass-green.png) 0px -192px;
+    background-position: -64px -192px;
 }
 .grass-green-decal-bottom-left{
-	background: url(/resources/images/grass-green.png) 0px -64px;
+    background-position: -64px -64px;
 }
 .grass-green-decal-bottom-right{
-    background: url(/resources/images/grass-green.png) 0px -128px;
+    background-position: -64px -128px;
 }
 .grass-green-plan{
-    background: url(/resources/images/grass-green.png) 0px 0px;
+    background-position:  -64px 0;
 }
 .block{
     width: 64px;  
     height: 64px; 
+    background-image: url(/resources/images/terrain.gif);
+    background-repeat: no-repeat;
 }
 .map-view{
     position: fixed;
@@ -133,9 +135,9 @@
     padding: 100px; 
     font-size: 24px;
     /* lets us predownload the image*/
-    background-image: url(/resources/images/grass-green.png);
+    background-image: url(/resources/images/terrain.gif);
     background-repeat: no-repeat;
-    background-position: -1000px -2000px;
+    background-position: -10000px -20000px;
 }
 
 #connecting .information{
