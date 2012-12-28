@@ -3,7 +3,7 @@ var io = require('socket.io').listen(app);
 var http = require('http');
 var os = require('os');
 
-app.listen(8084);
+app.listen(82);
 
 // routing
 app.get('/', function (req, res) {

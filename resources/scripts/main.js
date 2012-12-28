@@ -63,10 +63,9 @@ function bindUIEvents() {
     $('.action-menu').on('click','li', function(e) {
         e.preventDefault();
 
-        var action = $(this).attr("class");
-        action = action.replace("typicn ",""); 
-
-        actionMenuAction(action);
+        var action = $(this).attr("data-action");
+       
+        actionMenuAction(action, this);
     });
   
   //lets you scroll the tool bar
@@ -75,21 +74,21 @@ function bindUIEvents() {
  
   //lets the players move the objects to the map
   $( ".tool-item",".tool-bar" ).draggable({
-         start: function( event, ui ) { 
-           deselectMapElements();
-         },
-         stop: function( event, ui ) { 
-          $(this).attr("style","position: relative;");
-         },
-         grid: [ 16, 16 ]
+     start: function( event, ui ) {
+       deselectMapElements();
+     },
+     stop: function( event, ui ) {
+      $(this).attr("style","position: relative;");
+     },
+     grid: [ 16, 16 ]
   });
 
   //lets the user move the map round.
   $('.map').draggable({
-                   start: function( event, ui ) { 
-                         deselectMapElements();
-                       },
-                    grid: [ 16, 16 ]
+     start: function( event, ui ) {
+           deselectMapElements();
+         },
+      grid: [ 16, 16 ]
   });
 
   //makes it so you can hide the action menu by click the map
@@ -107,13 +106,21 @@ function bindUIEvents() {
 
 }
 
-function actionMenuAction(action){
+function actionMenuHide()
+{
+  $(".action-menu-wrapper").hide();
+  $(".action-submenu-wrapper").hide();
+}
+
+function actionMenuAction(action, target){
+  $(".action-submenu-wrapper").hide();
+  
   switch(action){
-        case 'delete': 
+        case 'delete':
               actionMenuActionDelete();
           break;
-        case 'info': 
-              actionMenuActionInfo();
+        case 'info':
+              actionMenuActionInfo(target);
         break;
         default:
           alert(action);
@@ -121,27 +128,32 @@ function actionMenuAction(action){
 }
 
 //Tells a little into about the item
-function actionMenuActionInfo()
+function actionMenuActionInfo(target)
 {
-   var element =  $(".selected",".map");
-   var id = element.attr('id');
+  var element =  $(".selected",".map");
+  var id = element.attr('id');
    
-   id = id.replace("ME-","");
+  id = id.replace("ME-","");
+  id = parseInt(id);
 
-   var date = new Date(parseInt(id));
+  var date = new Date(id);
    
-var hours = date.getHours();
-var AMPM = "A.M.";
+  var hours = date.getHours();
+  var AMPM = "A.M.";
 
-if (hours > 12)
-{
-hours = hours - 12;
-AMPM  = "P.M."
-}
+  if (hours > 12)
+  {
+    hours = hours - 12;
+    AMPM  = "P.M.";
+  }
 
-var dataString = "at " + hours  + ":"+ date.getMinutes() + " "+ AMPM  +" on " + ( date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+  var dataString = "at " + hours  + ":"+ date.getMinutes() + " "+ AMPM  +" on " + ( date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
 
-    alert("This object was created "+ dataString ); 
+  
+  var html = "This object was created "+ dataString;
+
+  $(target).find(".action-submenu").html(html);
+  $(target).find(".action-submenu-wrapper").show();
 }
 
 //removes the object locally and then sends the delete command to the server
@@ -153,7 +165,7 @@ function actionMenuActionDelete()
   
   socket.emit('deleteElement', element.attr("id"));
 
-  $(".action-menu-wrapper").hide();
+  actionMenuHide();
 }
 
 function mapDroppable(event, ui){
@@ -171,12 +183,14 @@ function mapDroppable(event, ui){
 
     //makes sure that its in side the size of the map
     //have to use css becuase offset isnt made yet
-    var top = element.css("top"); 
+    var top = element.css("top");
     var left = element.css("left");
     
     //gets ride of the px and makes an int
-    top = parseInt(top.replace('px'));
-    left = parseInt(left.replace('px'));
+    top = top.replace('px');
+    left = left.replace('px');
+    top = parseInt(top);
+    left = parseInt(left);
     
     if (top > ( -1 * size) && top < map.height() && left >  ( -1 * size)  && left < map.width())
     {
@@ -186,13 +200,12 @@ function mapDroppable(event, ui){
 
       //by default draggable sets to relitive we want absolute
       element.css("position","absolute");
-    } 
+    }
 }
 
 function deselectMapElements()
 {
-
-  $(".action-menu-wrapper").hide();
+  actionMenuHide();
 
   $(".selected",".map").each(function(index) {
         $(this).removeClass("selected");
@@ -208,12 +221,12 @@ function mapElementBindings(juqeryElement)
   //makes element draggable
   juqeryElement.draggable({
     grid: [ 16, 16 ],
-    start: function( event ) { 
+    start: function( event ) {
               deselectMapElements();
               juqeryElement.addClass("selected");
               sendElement(juqeryElement);
     },
-    stop: function( event, ui ) { 
+    stop: function( event, ui ) {
       sendElement(juqeryElement);
      }
   });
@@ -234,28 +247,29 @@ function mapElementBindings(juqeryElement)
 //looks at the keys and move the map 16px at a time
 function moveMap(direction){
 
-  var map = $('.map')
-    ,top = map.offset().top
-    , left = map.offset().left
-    , space = 16;
-    switch(direction){
-        case 'right': 
-           left =  left + space;
-          break;
-        case 'left':
-           left = left - space;
-          break;
-        case 'up':
-         top = top - space;
-        break;
-        case 'down':
-         top =top + space;
-        break;
-        default:
-          //for debugging
-      }
+  var map = $('.map');
+  var top = map.offset().top;
+  var left = map.offset().left;
+  var space = 16;
 
-    map.offset({top: top, left: left});
+  switch(direction){
+      case 'right':
+         left =  left + space;
+        break;
+      case 'left':
+         left = left - space;
+        break;
+      case 'up':
+       top = top - space;
+      break;
+      case 'down':
+       top =top + space;
+      break;
+      default:
+        //for debugging
+  }
+
+  map.offset({top: top, left: left});
 
 }
 
@@ -284,15 +298,19 @@ function adjustToMapSpaces(element, offset){
 //have to use css becuase offset gives us the window offset
   var mapTop = $('.map').css("top");
   var mapLeft = $('.map').css("left");
-
   var toolBarTop = $('.scroll-content').css("top");
-    if (toolBarTop == "auto")
-       toolBarTop = "0px";
-    //gets ride of the px and makes an int
-  mapTop = parseInt(mapTop.replace('px'));
-  mapLeft = parseInt(mapLeft.replace('px'));
   
-  toolBarTop = parseInt(toolBarTop.replace('px')) ;
+  if (toolBarTop == "auto")
+    toolBarTop = "0px";
+  //gets ride of the px and makes an int
+  mapTop = mapTop.replace('px');
+  mapLeft = mapLeft.replace('px');
+  toolBarTop = toolBarTop.replace('px');
+
+  mapTop = parseInt(mapTop);
+  mapLeft = parseInt(mapLeft);
+  toolBarTop = parseInt(toolBarTop);
+
   //for too bar
   left = (left + 32) - mapLeft ;
                                                      
@@ -308,16 +326,16 @@ function adjustToMapSpaces(element, offset){
 
  //makes an object on the fly from the dom element and sends it to the server
  function sendElement(element){
-      var classes = $(element).attr("class");
-      classes = classes.replace("selected-other","");
-      classes = classes.replace(" selected"," selected-other");
+  var classes = $(element).attr("class");
+  classes = classes.replace("selected-other","");
+  classes = classes.replace(" selected"," selected-other");
 
- 	var object = {
- 		top:  $(element).css("top"),
- 		left: $(element).css("left"),
- 		classes: classes,
+  var object = {
+    top:  $(element).css("top"),
+    left: $(element).css("left"),
+    classes: classes,
     id: $(element).attr("id")
- 	};
+  };
 
   socket.emit('sendElement', object);
  }
