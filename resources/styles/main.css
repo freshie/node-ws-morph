@@ -2,41 +2,41 @@
 *Blocks
 */
 .grass-green-decal-top-right-and-bottom-right-and-top-left{
-    background-position: -64px -768px;
+    background-position: -64px -769px;
 }
 .grass-green-decal-top-right-and-bottom-left-and-top-left{
-    background-position: -64px -704px;
+    background-position: -64px -705px;
 }
 .grass-green-decal-bottom-right-and-bottom-left-and-top-left{
-    background-position: -64px -640px;
+    background-position: -64px -641px;
 }
 .grass-green-decal-top-right-and-bottom-left{
-   background-position: -64px -576px;
+   background-position: -64px -577px;
 }
 .grass-green-decal-top-right-and-top-left{
-    background-position: -64px -512px;
+    background-position: -64px -513px;
 }
 .grass-green-decal-top-right-and-bottom-right{
-    background-position: -64px -448px;
+    background-position: -64px -449px;
 }
 .grass-green-decal-bottom-right-and-bottom-left{
-    background-position: -64px -384px;
+    background-position: -64px -385px;
 }
 .grass-green-decal-top-left-and-bottom-left{
-    background-position: -64px -320px;
+    background-position: -64px -321px;
 }
 
 .grass-green-decal-top-left{
-    background-position: -64px -256px;
+    background-position: -64px -257px;
 }
 .grass-green-decal-top-right{
-    background-position: -64px -192px;
+    background-position: -64px -193px;
 }
 .grass-green-decal-bottom-left{
-    background-position: -64px -64px;
+    background-position: -64px -65px;
 }
 .grass-green-decal-bottom-right{
-    background-position: -64px -128px;
+    background-position: -64px -129px;
 }
 .grass-green-plan{
     background-position:  -64px 0;
@@ -104,7 +104,6 @@
 }
 
 .tool-item{
-    z-index: 1;
 }
 
 
@@ -121,23 +120,25 @@
 }
 
 .action-menu{
-    width: 110px;
+    width: 160px;
     margin-left: auto;  
     margin-right:auto;  
     background: black;
     height: 40px;
     border-radius: 8px;
     color: white;
-    font-size: 40px;
     padding:0;
     margin-top: 0;
+}
+
+.action-item:not(:first-child){
+  margin-left: 15px;
 }
 
 .action-item{
   cursor: pointer;
   list-style-type: none;
   float: left;
-  margin-right: 15px;
   position: relative;
   top: .1em;
 }
@@ -148,6 +149,7 @@
     top: 30px;
     left: -142px;
     width: 300px;
+    cursor: auto;
 }
 
 .action-submenu {
@@ -157,7 +159,6 @@
     padding: 5px;
     border-radius: 8px;
     background: black;
-    font-size: 16px;
 }
 
 .action-submenu-arrow{
@@ -168,7 +169,6 @@
   color: black;
   z-index:2;
   left: 10px;
-  font-size: 24px;
   text-align: center;
 }
 /*
@@ -176,7 +176,6 @@
 */
 .connecting{
     padding: 100px; 
-    font-size: 24px;
     /* lets us predownload the image*/
     background-image: url(/resources/images/terrain.gif);
     background-repeat: no-repeat;
@@ -185,13 +184,38 @@
 
 .connecting .information{
     padding-left: 25px; 
-    font-size: 20px;
+}
+
+.connecting .information li{
+     list-style-type: circle;
+     padding-bottom: 5px;
 }
 
 /*
 *fonts
 */
 .normal-font{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+.touch-font{
+    font-size: 40px;
+}
+.reading-font{
+    font-size: 16px;
+}
+.reading-font-big{
+    font-size: 24px;
+}
+/*
+* Gen
+*/
 
+.center{
+    text-align: center;
+}

@@ -10,10 +10,10 @@
 	<body class="normal-font">
 		<div id="connecting" class="connecting">
 			<div id="spinner"> 
-                <span id='spinner-text'>Connecting...</span>
+                <span id='spinner-text' class="reading-font-big">Connecting...</span>
 		    </div>
 			
-			<ul class="information">
+			<ul class="information reading-font">
 				<li>Click and drag the objects to move them.</li>
 				<li>To make a new object drag one from the sidebar.</li>
 				<li>Drag the whitesapce on the map to move the map.</li>
@@ -39,20 +39,27 @@
 				</div>
 			</div>
 			<div class="map-view">
-					<div class="map">
-					 	
-					</div>
+					<div class="map"></div>
 			</div>
-				
 			<div class="action-menu-wrapper" style="display: none;"> 
-				<ul class="action-menu"> 
+				<ul class="action-menu touch-font"> 
 					<li class="action-item typicn info" data-action='info'>
-						<div class="action-submenu-wrapper normal-font" style="display: none;">
-							<span class="action-submenu-arrow">▲</span>
-							<div class="action-submenu">filler</div>
+						<div class="action-submenu-wrapper normal-font reading-font" style="display: none;">
+							<span class="action-submenu-arrow reading-font-big">▲</span>
+							<div class="action-submenu">[info]</div>
 						</div>
 					</li> 
 					<li class="action-item typicn delete" data-action='delete'></li>
+					<li class="action-item typicn tab" data-action='layer'>
+						<div class="action-submenu-wrapper normal-font touch-font" style="display: none; width: 175px;left: -80px;">
+							<span class="action-submenu-arrow reading-font-big">▲</span>
+							<div class="action-submenu center" style="height: 30px">
+								<span id="layer-up" class="typicn up"></span>
+								<span id="layer-text" class="reading-font-big" style="vertical-align: text-top;">1</span>
+								<span id="layer-down" class="typicn down"></span>
+							</div>
+						</div>
+					</li>
 				</ul>
 			</div>
 		</div>

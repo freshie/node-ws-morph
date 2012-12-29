@@ -60,13 +60,23 @@ function bindUIEvents() {
     });
 
   //action menu stuff
-    $('.action-menu').on('click','li', function(e) {
-        e.preventDefault();
+  $('.action-menu').on('click','li', function(e) {
+    e.preventDefault();
 
-        var action = $(this).attr("data-action");
-       
-        actionMenuAction(action, this);
+    var action = $(this).attr("data-action");
+   
+    actionMenuAction(action, this);
+  });
+
+  $('#layer-up').on("click", function(e){
+      actionMenuActionLayerUpdate("up");
+      e.preventDefault();
     });
+
+  $('#layer-down').on("click", function(e){
+    actionMenuActionLayerUpdate("down");
+    e.preventDefault();
+  });
   
   //lets you scroll the tool bar
   $(".tool-bar").sbscroller();
@@ -114,18 +124,81 @@ function actionMenuHide()
 
 function actionMenuAction(action, target){
   $(".action-submenu-wrapper").hide();
-  
+
   switch(action){
-        case 'delete':
-              actionMenuActionDelete();
-          break;
-        case 'info':
-              actionMenuActionInfo(target);
-        break;
-        default:
-          alert(action);
-      }
+    case 'delete':
+          actionMenuActionDelete();
+      break;
+    case 'info':
+          actionMenuActionInfo(target);
+    break;
+    case 'layer':
+          actionMenuActionLayer(target);
+    break;
+    default:
+      alert(action);
+  }
+
 }
+
+function actionMenuActionLayerUpdate(directon)
+{
+  var element =  $(".selected",".map");
+  var z = element.css( "z-index");
+
+  z = parseInt(z);
+
+  if (isNaN(z) || z < 0){
+    z = 0;
+  }
+  if (z > 9999){
+    z = 9999;
+  }
+
+  switch(directon){
+    case 'up':
+          z = z + 1;
+      break;
+    case 'down':
+           z = z - 1;
+    break;
+    default:
+      alert("error");
+  }
+
+  if (z < 0){
+    z = 0;
+  }
+  if (z > 9999){
+    z = 9999;
+  }
+
+  element.css( "z-index", z);
+  sendElement(element);
+}
+
+function actionMenuActionLayer(target)
+{
+  var element =  $(".selected",".map");
+
+  var z = element.css( "z-index");
+  z = parseInt(z);
+
+  if (isNaN(z) || z < 0){
+    z = 0;
+  }
+  if (z > 9999){
+    z = 9999;
+  }
+
+  $(target).find("#layer-text").html(z);
+
+
+  $(target).find(".action-submenu-wrapper").show();
+
+
+}
+
 
 //Tells a little into about the item
 function actionMenuActionInfo(target)
@@ -222,9 +295,10 @@ function mapElementBindings(juqeryElement)
   juqeryElement.draggable({
     grid: [ 16, 16 ],
     start: function( event ) {
-              deselectMapElements();
-              juqeryElement.addClass("selected");
-              sendElement(juqeryElement);
+      deselectMapElements();
+      juqeryElement.addClass("selected");
+      juqeryElement.removeClass("selected-other");
+      sendElement(juqeryElement);
     },
     stop: function( event, ui ) {
       sendElement(juqeryElement);
@@ -233,7 +307,8 @@ function mapElementBindings(juqeryElement)
  
 
   juqeryElement.on("click", function(event){
-        $(".block",".map").removeClass("selected");
+        deselectMapElements();
+
         juqeryElement.addClass("selected");
 
         sendElement(juqeryElement);
@@ -283,7 +358,7 @@ function renderMapElement(ElementIn){
 
     mapElementBindings(juqeryElement);
     
-    juqeryElement.attr("style",'top: '+ElementIn.top+'; left: '+ElementIn.left+'; position: absolute;');
+    juqeryElement.attr("style",ElementIn.style);
 }
 
 
@@ -329,10 +404,9 @@ function adjustToMapSpaces(element, offset){
   var classes = $(element).attr("class");
   classes = classes.replace("selected-other","");
   classes = classes.replace(" selected"," selected-other");
-
+  
   var object = {
-    top:  $(element).css("top"),
-    left: $(element).css("left"),
+    style:  $(element).attr("style"),
     classes: classes,
     id: $(element).attr("id")
   };
